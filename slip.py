@@ -40,7 +40,6 @@ class CamadaEnlace:
 
 
 
-
 class Enlace:
 	def __init__(self, linha_serial):
 		self.linha_serial = linha_serial
