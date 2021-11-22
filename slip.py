@@ -79,6 +79,13 @@ class Enlace:
 				data = data.replace(b'\xdb\xdd',b'\xdb')
 				data = data.replace(b'\xdb\xdc',b'\xc0')
 
-				self.callback(data)
+				try:
+					self.callback(data)
+				except:
+				# ignora a exceção, mas mostra na tela
+					import traceback
+					traceback.print_exc()
+					self.dados_quebrados = b''
+
 		
 		pass
