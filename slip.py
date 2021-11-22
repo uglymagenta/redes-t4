@@ -44,6 +44,7 @@ class Enlace:
 	def __init__(self, linha_serial):
 		self.linha_serial = linha_serial
 		self.linha_serial.registrar_recebedor(self.__raw_recv)
+		self.dados_quebrados = b''
 
 	def registrar_recebedor(self, callback):
 		self.callback = callback
@@ -66,7 +67,18 @@ class Enlace:
 		# vir quebrado de várias formas diferentes - por exemplo, podem vir
 		# apenas pedaços de um quadro, ou um pedaço de quadro seguido de um
 		# pedaço de outro, ou vários quadros de uma vez só.
-		
-		
+
+		#descarta os \xC0 do datagrama:
+		datagrama = dados.split(b'\xc0')
+
+		datagrama[0] = self.dados_quebrados + datagrama[0]
+		self.dados_quebrados = datagrama[-1]
+
+		for data in datagrama[0:-1]:
+			if(data != b''):
+				data = data.replace(b'\xdb\xdd',b'\xdb')
+				data = data.replace(b'\xdb\xdc',b'\xc0')
+
+				self.callback(data)
 		
 		pass
