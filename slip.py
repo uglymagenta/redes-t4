@@ -1,3 +1,4 @@
+#asd
 class CamadaEnlace:
 	ignore_checksum = False
 
